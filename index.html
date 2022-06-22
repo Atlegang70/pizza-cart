@@ -68,7 +68,7 @@ border-radius: 1em;
 <body> 
     <div class="largeContainer" x-data="{showMassage:false, smallTotal: 0.00, mediumTotal: 0.00, largeTotal: 0.00, currentTotal:0.00,
         smallQty:0, largeQty:0, mediumQty:0,
-        paymentMassage: '',amountEntered: 0, showCheckout: false,hideAmount:true,showCart: false,hideCart:true,
+        paymentMassage: '',amountEntered: 0, showCheckout: false,hideAmount:true,showCart: false,hideCart:true,refresh:false;
 
         payment(){
             
@@ -149,8 +149,8 @@ border-radius: 1em;
 
     <div x-text="paymentMassage" x-transition> </div>
   <div x-show="hideAmount">Payment Amount:<input type="number" placeholder="payment Amount" x-model="amountEntered" x-transition > </input></div>  
-    <button  x-show="hideAmount" @click="payment();  if(amountEntered >= (largeTotal+mediumTotal+smallTotal)){hideAmount=false; 
-     setTimeout(function(){hideCart=false},3000); hideCart=true}" class="btn" x-transition><strong><h3>Pay</h3></strong></button>
+    <button  x-show="hideAmount" @click="payment();  if(amountEntered >= (largeTotal+mediumTotal+smallTotal)){hideAmount=false;refresh=true;
+     setTimeout(function(){hideCart=false;},3000); }" class="btn" x-transition><strong><h3>Pay</h3></strong></button>
     
 
 </div>
@@ -172,11 +172,13 @@ border-radius: 1em;
                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                 ex
                 ea commodo consequat</div>
+        
 
                <div style="text-align: center; padding: 40px; ">
-                 <button style="font-size:large; width:150px;" @click="largeTotal+=129; largeQty+=1;showCheckout=true; showCart=true; if(amountEntered >= (largeTotal+mediumTotal+smallTotal)){largeTotal+=129; largeQty+=1;showCheckout=true; showCart=true;}">Buy</button> 
+                 <button style="font-size:large; width:150px;" @click=" largeTotal+=129; largeQty+=1;showCheckout=true; showCart=true; if(refresh){showCart=true}">Buy</button> 
                 </div>
-        </div>
+        
+    </div> 
         <div class="pizza medium">
             <h2>Medium Pizza</h2>
             <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
