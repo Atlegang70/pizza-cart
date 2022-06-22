@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <style>
+        body {
+            background-color: pink;
+        
+        }
+        .pizzas{
+            background-color: pink;
+            border-radius: 1em;
+        }
+        .pizza {
+            border: 1px solid;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 1em;
+            margin: 5px;
+        }
+        .large {
+            background-color: red;
+        }
+        .medium {
+            background-color: darkorange;
+        }
+        .small {
+            background-color: yellow;
+        }
+        .header {
+            margin-bottom: 10px;
+        }
+        .footer {
+            background-color: green
+             }
+        .align{
+            text-align: center;
+            border-radius: 1em;
+            background-color: goldenrod;
+            padding: 10px;
+            
+        }
+        @media(min-width: 600px){
+            .pizzas {
+            display: flex;
+            }
+        }
+        .cart{
+border: 1px;
+background-color: grey;
+padding: 100px;
+padding-left: 600px;
+border-width: 800px;
+border-radius: 1em;
+
+        }
+    </style>
+
+</head>
+
+<body> 
+    <div class="largeContainer" x-data="{showMassage:false, smallTotal: 0.00, mediumTotal: 0.00, largeTotal: 0.00, currentTotal:0.00,
+        smallQty:0, largeQty:0, mediumQty:0,
+        paymentMassage: '',amountEntered: 0, showCheckout: false,hideAmount:true,showCart: false,hideCart:true,
+
+        payment(){
+            
+            if( !this.amountEntered){
+                this.paymentMassage = 'no amount entered';
+            }
+            else if(this.amountEntered >= (this.largeTotal+this.mediumTotal+this.smallTotal)){
+                this.paymentMassage = 'payment successful, you can order again if you want more pizza! ';
+                this.clearCart();
+                
+            }
+            else{
+                
+                this.paymentMassage = 'Sorry - that is not enough money!';
+            }
+        },
+        clearCart(){
+        this.smallTotal= 0.00;
+        this.mediumTotal= 0.00;
+        this.largeTotal= 0.00; 
+        this.currentTotal=0.00;
+        this.smallQty=0;
+        this.largeQty=0;
+        this.mediumQty=0;
+        }
+        
+    }">
+
+    <div class="align header" >
+        <div><span><img src="https://i.pinimg.com/originals/b3/d3/e5/b3d3e5248fc163046b855eb342fcfe83.jpg" alt="" width="50px" height="50px"></span> </div>
+        <div style="margin-top:10px;"><h1 >Perfect Pizza </h1></div>
+          
+            
+   <h2 x-text="paymentMassage"></h2>
+            <small>pizza orders</small>
+    </div>
+<div x-show="showCart" x-transition >
+    <div class="cart" x-show="hideCart" x-transition>
+        <h3>Shopping cart</h3>    
+    <table style="width:30%;">
+<tr>
+<td> <strong>Small</strong></td>
+
+<td><span x-text="smallQty"></span></td>
+<td> <button @click="smallTotal+=49; smallQty+=1; ">+</button> </td>
+<td> <button @click="if(smallQty>0){smallTotal-=49; smallQty-=1}">-</button> </td>
+<td><span>R</span></td>
+<td x-text="smallTotal"></td>
+</tr>
+
+<tr>
+    <td> <strong>Medium</strong></td>
+    <td><span x-text="mediumQty"></span></td>
+    <td> <button @click="mediumTotal+=89; mediumQty+=1;">+</button> </td>
+    <td> <button @click="if(mediumTotal>0){mediumTotal-=89; mediumQty-=1}">-</button> </td>
+    <td><span>R</span></td>
+    <td x-text="mediumTotal"></td>
+    </tr>
+
+    <tr>
+        <td> <strong>Large</strong></td>
+        <td><span x-text="largeQty"></span></td>
+        <td> <button @click="largeTotal+=129; largeQty+=1;">+</button> </td>
+        <td> <button @click="if(largeQty > 0) {largeTotal-=129; largeQty-=1}">-</button> </td>
+        <td><span>R</span></td>
+        <td x-text ="largeTotal"></td>
+        </tr>
+        <tr>
+            <td> <strong>Total cost</strong></td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <b><strong> <td><span>R</span></td></strong></b>
+         <b> <strong> <td  x-text="largeTotal+mediumTotal+smallTotal" ></td></strong></b>
+            </tr>
+</table>
+<div x-show="showMassage" x-transition >
+
+    <div x-text="paymentMassage" x-transition> </div>
+  <div x-show="hideAmount">Payment Amount:<input type="number" placeholder="payment Amount" x-model="amountEntered" x-transition > </input></div>  
+    <button  x-show="hideAmount" @click="payment();  if(amountEntered >= (largeTotal+mediumTotal+smallTotal)){hideAmount=false; 
+        setTimeout(function(){hideCart=false;},5000)}" class="btn" x-transition><strong><h3>Pay</h3></strong></button>
+    
+
+</div>
+<div style="padding-left:40px; padding-top: 20px;"><button @click="showMassage=true; showCheckout=false" x-show="showCheckout"><strong>Check out</strong></button></div>
+
+</div>
+</div>
+
+
+
+
+    <div class="pizzas"  >
+        <div class="pizza large">
+            <h2>Large Pizza</h2>
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60"
+                width="200">
+            <h3>R129.00</h3>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex
+                ea commodo consequat</div>
+
+               <div style="text-align: center; padding: 40px; ">
+                 <button style="font-size:large; width:150px;" @click="largeTotal+=129; largeQty+=1;showCheckout=true; showCart=true; if(amountEntered >= (largeTotal+mediumTotal+smallTotal)){largeTotal+=129; largeQty+=1;showCheckout=true; showCart=true;}">Buy</button> 
+                </div>
+        </div>
+        <div class="pizza medium">
+            <h2>Medium Pizza</h2>
+            <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                width="150">
+            <h3>R89.00</h3>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex
+                ea commodo consequat</div>
+                <div style="text-align: center; padding: 40px; padding-top: 70px;"> 
+                <button style="font-size:large; width:150px;" @click="mediumTotal+=89; mediumQty+=1;showCheckout=true; showCart=true;">Buy</button> 
+            </div>
+        </div>
+        <div class="pizza small">
+            <h2>Small Pizza</h2>
+            <img src="https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+                width="100">
+            <h3>R49.00</h3>
+            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex
+                ea commodo consequat</div>
+                <div style="text-align: center; padding: 40px; padding-top: 100px;"> 
+                    <button style="font-size:large; width:150px;" @click="smallTotal+=49; smallQty+=1;showCheckout=true; showCart=true;  ">Buy</button> </div>
+        </div>
+    </div>
+    <div
+     class="pizza footer">
+        <h2>Contact Details</h2>
+        <p>phone number: 081 599 7095
+       <br>Email: info@perfectpizza.com
+       </p> 
+</div>
+</div>
+</body>
+</html>
