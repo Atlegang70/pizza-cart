@@ -48,6 +48,9 @@
             .pizzas {
             display: flex;
             }
+            .largeContainer{
+                display: inline;
+            }
         }
         .cart{
 border: 1px;
@@ -147,7 +150,7 @@ border-radius: 1em;
     <div x-text="paymentMassage" x-transition> </div>
   <div x-show="hideAmount">Payment Amount:<input type="number" placeholder="payment Amount" x-model="amountEntered" x-transition > </input></div>  
     <button  x-show="hideAmount" @click="payment();  if(amountEntered >= (largeTotal+mediumTotal+smallTotal)){hideAmount=false; 
-        setTimeout(function(){hideCart=false;},5000)}" class="btn" x-transition><strong><h3>Pay</h3></strong></button>
+     setTimeout(function(){hideCart=false},3000); hideCart=true}" class="btn" x-transition><strong><h3>Pay</h3></strong></button>
     
 
 </div>
